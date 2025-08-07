@@ -70,7 +70,7 @@ export const HowToUse = () => {
       <div className="max-w-6xl mx-auto space-y-12">
         <div className="text-center">
           <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">
-            How to Use LeadFinder Pro
+            How to Use Digifyme Leadfinder Pro
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Generate powerful boolean search queries in three simple steps
@@ -115,7 +115,7 @@ export const HowToUse = () => {
           <div className="text-center">
             <h3 className="text-2xl font-bold mb-4">Query Examples</h3>
             <p className="text-muted-foreground">
-              See what kind of boolean queries LeadFinder Pro generates
+              See what kind of boolean queries Digifyme Leadfinder Pro generates
             </p>
           </div>
 

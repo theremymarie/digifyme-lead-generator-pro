@@ -9,7 +9,7 @@ export const Header = () => {
             <Target className="w-8 h-8 text-primary-foreground" />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">
-            LeadFinder Pro
+            Digifyme Leadfinder Pro
           </h1>
         </div>
         

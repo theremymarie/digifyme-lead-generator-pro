@@ -1,6 +1,7 @@
 import { Header } from "@/components/Header";
 import { SearchForm } from "@/components/SearchForm";
 import { Features } from "@/components/Features";
+import { HowToUse } from "@/components/HowToUse";
 
 const Index = () => {
   return (
@@ -16,6 +17,7 @@ const Index = () => {
             <SearchForm />
           </main>
           
+          <HowToUse />
           <Features />
         </div>
       </div>

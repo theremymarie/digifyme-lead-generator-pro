@@ -15,6 +15,9 @@ interface SearchCriteria {
   industries: string;
   keywords: string;
   excludeTerms: string;
+  countries: string;
+  sectors: string;
+  niches: string;
 }
 
 interface SearchResult {
@@ -31,7 +34,10 @@ export const SearchForm = () => {
     locations: "",
     industries: "",
     keywords: "",
-    excludeTerms: ""
+    excludeTerms: "",
+    countries: "",
+    sectors: "",
+    niches: ""
   });
   const [results, setResults] = useState<SearchResult[]>([]);
 
@@ -130,6 +136,87 @@ export const SearchForm = () => {
     return query;
   };
 
+  const generateInfluencerQuery = () => {
+    const parts = [];
+    
+    // Base influencer terms
+    const influencerTerms = ['influencer', 'blogger', 'content creator', 'social media', 'instagram', 'youtube', 'tiktok'];
+    parts.push(`(${influencerTerms.join(' OR ')})`);
+    
+    if (criteria.industries || criteria.sectors || criteria.niches) {
+      const allCategories = [
+        ...criteria.industries.split(',').map(i => i.trim()).filter(Boolean),
+        ...criteria.sectors.split(',').map(s => s.trim()).filter(Boolean),
+        ...criteria.niches.split(',').map(n => n.trim()).filter(Boolean)
+      ];
+      if (allCategories.length > 0) {
+        parts.push(`(${allCategories.map(cat => `"${cat}"`).join(' OR ')})`);
+      }
+    }
+    
+    if (criteria.countries || criteria.locations) {
+      const allLocations = [
+        ...criteria.countries.split(',').map(c => c.trim()).filter(Boolean),
+        ...criteria.locations.split(',').map(l => l.trim()).filter(Boolean)
+      ];
+      if (allLocations.length > 0) {
+        parts.push(`(${allLocations.map(loc => `"${loc}"`).join(' OR ')})`);
+      }
+    }
+    
+    const contactTerms = ['contact', 'email', 'collaboration', 'partnership', 'booking'];
+    parts.push(`(${contactTerms.join(' OR ')})`);
+    
+    if (criteria.keywords) {
+      const keywords = criteria.keywords.split(',').map(k => k.trim());
+      parts.push(`(${keywords.join(' OR ')})`);
+    }
+    
+    let query = parts.join(' AND ');
+    
+    if (criteria.excludeTerms) {
+      const excludes = criteria.excludeTerms.split(',').map(e => e.trim());
+      query += ` ${excludes.map(term => `-"${term}"`).join(' ')}`;
+    }
+    
+    return query;
+  };
+
+  const generatePoliticianQuery = () => {
+    const parts = [];
+    
+    // Base politician terms
+    const politicianTerms = ['politician', 'senator', 'congressman', 'mayor', 'governor', 'minister', 'MP', 'representative'];
+    parts.push(`(${politicianTerms.join(' OR ')})`);
+    
+    if (criteria.countries) {
+      const countries = criteria.countries.split(',').map(c => c.trim());
+      parts.push(`(${countries.map(country => `"${country}"`).join(' OR ')})`);
+    }
+    
+    if (criteria.sectors || criteria.keywords) {
+      const allTerms = [
+        ...criteria.sectors.split(',').map(s => s.trim()).filter(Boolean),
+        ...criteria.keywords.split(',').map(k => k.trim()).filter(Boolean)
+      ];
+      if (allTerms.length > 0) {
+        parts.push(`(${allTerms.join(' OR ')})`);
+      }
+    }
+    
+    const contactTerms = ['office', 'contact', 'email', 'phone', 'staff', 'press', 'communications'];
+    parts.push(`(${contactTerms.join(' OR ')})`);
+    
+    let query = parts.join(' AND ');
+    
+    if (criteria.excludeTerms) {
+      const excludes = criteria.excludeTerms.split(',').map(e => e.trim());
+      query += ` ${excludes.map(term => `-"${term}"`).join(' ')}`;
+    }
+    
+    return query;
+  };
+
   const handleGenerate = () => {
     const newResults: SearchResult[] = [];
 
@@ -154,6 +241,22 @@ export const SearchForm = () => {
         type: "Contact Information",
         query: generateContactQuery(),
         description: "Search for contact details including emails and phone numbers"
+      });
+    }
+
+    if (criteria.industries || criteria.sectors || criteria.niches || criteria.countries) {
+      newResults.push({
+        type: "Influencer Contacts",
+        query: generateInfluencerQuery(),
+        description: "Find influencers and content creators in specific niches or countries"
+      });
+    }
+
+    if (criteria.countries || criteria.sectors) {
+      newResults.push({
+        type: "Politicians & Officials",
+        query: generatePoliticianQuery(),
+        description: "Locate political figures and government officials contact information"
       });
     }
 
@@ -241,6 +344,36 @@ export const SearchForm = () => {
               value={criteria.keywords}
               onChange={(e) => handleInputChange('keywords', e.target.value)}
             />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="space-y-2">
+              <Label htmlFor="countries">Countries</Label>
+              <Input
+                id="countries"
+                placeholder="USA, UK, Germany, Canada"
+                value={criteria.countries}
+                onChange={(e) => handleInputChange('countries', e.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="sectors">Sectors</Label>
+              <Input
+                id="sectors"
+                placeholder="healthcare, education, environment"
+                value={criteria.sectors}
+                onChange={(e) => handleInputChange('sectors', e.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="niches">Niches</Label>
+              <Input
+                id="niches"
+                placeholder="fitness, beauty, gaming, travel"
+                value={criteria.niches}
+                onChange={(e) => handleInputChange('niches', e.target.value)}
+              />
+            </div>
           </div>
           
           <div className="space-y-2">

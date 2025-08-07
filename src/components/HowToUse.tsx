@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Search, Copy, Target, Users, Calendar, Mail } from "lucide-react";
+import { ArrowRight, Search, Copy, Target, Users, Calendar, Mail, Star, Crown } from "lucide-react";
 
 const steps = [
   {
@@ -13,6 +13,9 @@ const steps = [
       "Locations: New York, San Francisco, London",
       "Industries: Technology, Healthcare, Finance",
       "Keywords: blockchain, AI, machine learning",
+      "Countries: USA, UK, Germany, Canada",
+      "Sectors: healthcare, education, environment", 
+      "Niches: fitness, beauty, gaming, travel",
       "Exclude Terms: recruiter, intern, student"
     ],
     icon: Target
@@ -25,6 +28,8 @@ const steps = [
       "LinkedIn Profile searches with site:linkedin.com/in/",
       "Event participant searches with conference terms",
       "Contact discovery searches with email and phone patterns",
+      "Influencer searches with social media and niche targeting",
+      "Political contact searches with government and official terms",
       "Smart boolean operators (AND, OR, quotes, exclusions)"
     ],
     icon: Search
@@ -61,6 +66,18 @@ const searchTypes = [
     icon: Mail,
     example: '"Microsoft" AND ("CEO" OR "CTO") AND (email OR contact OR @ OR phone)',
     description: "Locate email addresses and phone numbers"
+  },
+  {
+    type: "Influencer Contacts",
+    icon: Star,
+    example: '(influencer OR blogger OR "content creator") AND ("fitness" OR "beauty") AND "USA" AND (contact OR email)',
+    description: "Find influencers and content creators in specific niches"
+  },
+  {
+    type: "Politicians & Officials",
+    icon: Crown,
+    example: '(politician OR senator OR mayor) AND "USA" AND "healthcare" AND (office OR contact OR email)',
+    description: "Locate political figures and government officials"
   }
 ];
 

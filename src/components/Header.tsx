@@ -14,8 +14,8 @@ export const Header = () => {
         </div>
         
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-          Generate powerful Google boolean search queries to find leads on LinkedIn, 
-          discover event participants, and locate contact information with precision.
+          Generate powerful Google boolean search queries to find professionals, influencers, politicians, 
+          real estate contacts, suppliers, event participants, and contact information across any industry or location.
         </p>
         
         <div className="flex items-center justify-center space-x-8 pt-6">

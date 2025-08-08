@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Search, Copy, Target, Users, Calendar, Mail, Star, Crown } from "lucide-react";
+import { ArrowRight, Search, Copy, Target, Users, Calendar, Mail, Star, Crown, Building, Truck } from "lucide-react";
 
 const steps = [
   {
@@ -30,6 +30,8 @@ const steps = [
       "Contact discovery searches with email and phone patterns",
       "Influencer searches with social media and niche targeting",
       "Political contact searches with government and official terms",
+      "Real estate professional searches with property and broker terms",
+      "Supplier and vendor searches with industry and location targeting",
       "Smart boolean operators (AND, OR, quotes, exclusions)"
     ],
     icon: Search
@@ -78,6 +80,18 @@ const searchTypes = [
     icon: Crown,
     example: '(politician OR senator OR mayor) AND "USA" AND "healthcare" AND (office OR contact OR email)',
     description: "Locate political figures and government officials"
+  },
+  {
+    type: "Real Estate Contacts",
+    icon: Building,
+    example: '("real estate" OR property OR broker) AND "Miami" AND "luxury homes" AND (contact OR email)',
+    description: "Find real estate professionals and property listings"
+  },
+  {
+    type: "Suppliers & Vendors",
+    icon: Truck,
+    example: '(supplier OR vendor OR manufacturer) AND "Manufacturing" AND "China" AND (contact OR sales)',
+    description: "Locate suppliers and service providers by industry"
   }
 ];
 

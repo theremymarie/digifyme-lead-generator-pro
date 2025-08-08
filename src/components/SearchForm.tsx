@@ -217,6 +217,81 @@ export const SearchForm = () => {
     return query;
   };
 
+  const generateRealEstateQuery = () => {
+    const parts = [];
+    
+    // Base real estate terms
+    const realEstateTerms = ['real estate', 'property', 'broker', 'agent', 'realtor', 'listings', 'homes for sale', 'commercial property'];
+    parts.push(`(${realEstateTerms.join(' OR ')})`);
+    
+    if (criteria.locations) {
+      const locations = criteria.locations.split(',').map(l => l.trim());
+      parts.push(`(${locations.map(location => `"${location}"`).join(' OR ')})`);
+    }
+    
+    if (criteria.keywords) {
+      const keywords = criteria.keywords.split(',').map(k => k.trim());
+      parts.push(`(${keywords.join(' OR ')})`);
+    }
+    
+    const contactTerms = ['contact', 'email', 'phone', 'office', 'listing agent', 'inquiries'];
+    parts.push(`(${contactTerms.join(' OR ')})`);
+    
+    let query = parts.join(' AND ');
+    
+    if (criteria.excludeTerms) {
+      const excludes = criteria.excludeTerms.split(',').map(e => e.trim());
+      query += ` ${excludes.map(term => `-"${term}"`).join(' ')}`;
+    }
+    
+    return query;
+  };
+
+  const generateSuppliersQuery = () => {
+    const parts = [];
+    
+    // Base supplier terms
+    const supplierTerms = ['supplier', 'vendor', 'distributor', 'wholesaler', 'manufacturer', 'provider', 'contractor'];
+    parts.push(`(${supplierTerms.join(' OR ')})`);
+    
+    if (criteria.industries || criteria.sectors) {
+      const allCategories = [
+        ...criteria.industries.split(',').map(i => i.trim()).filter(Boolean),
+        ...criteria.sectors.split(',').map(s => s.trim()).filter(Boolean)
+      ];
+      if (allCategories.length > 0) {
+        parts.push(`(${allCategories.map(cat => `"${cat}"`).join(' OR ')})`);
+      }
+    }
+    
+    if (criteria.locations || criteria.countries) {
+      const allLocations = [
+        ...criteria.locations.split(',').map(l => l.trim()).filter(Boolean),
+        ...criteria.countries.split(',').map(c => c.trim()).filter(Boolean)
+      ];
+      if (allLocations.length > 0) {
+        parts.push(`(${allLocations.map(loc => `"${loc}"`).join(' OR ')})`);
+      }
+    }
+    
+    if (criteria.keywords) {
+      const keywords = criteria.keywords.split(',').map(k => k.trim());
+      parts.push(`(${keywords.join(' OR ')})`);
+    }
+    
+    const contactTerms = ['contact', 'email', 'sales', 'inquiry', 'quote', 'business'];
+    parts.push(`(${contactTerms.join(' OR ')})`);
+    
+    let query = parts.join(' AND ');
+    
+    if (criteria.excludeTerms) {
+      const excludes = criteria.excludeTerms.split(',').map(e => e.trim());
+      query += ` ${excludes.map(term => `-"${term}"`).join(' ')}`;
+    }
+    
+    return query;
+  };
+
   const handleGenerate = () => {
     const newResults: SearchResult[] = [];
 
@@ -257,6 +332,22 @@ export const SearchForm = () => {
         type: "Politicians & Officials",
         query: generatePoliticianQuery(),
         description: "Locate political figures and government officials contact information"
+      });
+    }
+
+    if (criteria.locations || criteria.keywords) {
+      newResults.push({
+        type: "Real Estate Contacts",
+        query: generateRealEstateQuery(),
+        description: "Find real estate agents, brokers, and property professionals"
+      });
+    }
+
+    if (criteria.industries || criteria.sectors || criteria.locations) {
+      newResults.push({
+        type: "Suppliers & Vendors",
+        query: generateSuppliersQuery(),
+        description: "Locate suppliers, vendors, and service providers by industry and location"
       });
     }
 

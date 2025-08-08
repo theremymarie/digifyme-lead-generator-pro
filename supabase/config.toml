@@ -1,1 +1,4 @@
 project_id = "qulglzsnilsqfhbtpjmr"
+
+[functions.generate-queries]
+verify_jwt = true
